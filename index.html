@@ -1,0 +1,173 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Podcast Portfolio - Anushka</title>
+    <link rel="stylesheet" href="style.css">
+<!------------------------ Google Font --------------------------------------------------->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+    rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    </head>  
+    <body>
+<!-- ----------------------------------------------navbar--------------------------------------------- -->
+        <nav class="navbar">
+            <ul class="nav-links" id="sidemenu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">Intro</a></li>
+                <li><a href="#journey">Journey</a></li>
+                <li><a href="#skill">Skills</a></li>
+                <li><a href="#certificates">certificates</a></li>                
+                <li><a href="#projects">Projects</a></li>  
+                <li><a href="#contact">Contact</a></li>  
+             <i class="fa-solid fa-xmark" onclick="closemenu()"></i>
+          </ul>
+          <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+        </nav>
+<!-------------------------------------------------- Home ------------------------------------------------>
+        <section class="hero" id="home">
+                <div class="hero-text">
+                    <h1><i class="ri-customer-service-fill"></i>  The Story of Anushka</h1>
+                    <p>From curiosity to creating beautiful web experiences.</p>
+                    <button class="btn" onclick="startListening(this)" ><i class="ri-play-fill"></i> Start Listening</button>
+                </div>
+
+                <div class="player hidden" id="playerBox" onclick="playPodcast()">
+                    <img src="./image.jpeg" alt="Anushka profile image">
+                    <h3>Now Playing</h3>
+                    <div class="wave"></div>
+                    <p id="currentEp" >Episode 1: Who am i?</p>
+                    <button onclick="event.stopPropagation(); prevEpisode()"><i class="ri-rewind-mini-fill"></i></button>
+                    <button onclick="event.stopPropagation(); resetPodcast()"><i class="ri-loop-left-line"></i></button>
+                    <button onclick="event.stopPropagation(); nextEpisode()"><i class="ri-speed-mini-fill"></i></button>
+                    <div id="e1" class="progress"></div>
+                    <div id="e2" class="progress"></div>
+                    <div id="e3" class="progress"></div>
+                </div>
+        </section>
+<!------------------------------------ intro ------------------------------------------------->
+        <section id="about">
+                <div class="reveal-section">
+                <div class="container">
+                    <div class="row">
+                    <div class="about-col-1">
+                        <img src="./iimg.jpeg"/>
+                    </div>
+                    <div class="about-col-2">
+                        <h1 class="sub-title "> Episode 1: Who am i ?</h1>
+                        <p class="line reveal">| &nbsp; Every story has a beginning… and mine starts with curiosity.</p>
+                        <p class="line reveal">I am a frontend developer, but not just someone who writes code — I am someone who builds experiences that people can feel.</p>
+                        <p class="line reveal">From the moment I saw my first webpage come alive, I realized something powerful — I don't just want to use websites… I want to create them.</p>
+                        <p class="line reveal">Slowly, curiosity turned into passion. And passion turned into skill.</p>
+                        <p class="line reveal">Today, I specialize in building visually appealing, user-friendly, and responsive web applications that work seamlessly across every device.</p>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+        </section>
+<!-- ------------------------------------------------------- journey--------------------------------------------------- -->
+        <section id="journey">
+            <div class="reveal-section">
+                <div class="journey-1 ">
+                <h1 class="sub-title">Episode 2: The Learning Journey</h1>
+                <p class="line reveal">My journey has never been just about learning code… it has been about understanding how technology can solve real-world problems.</p>
+                <p class="line reveal">I started with the basics — HTML, CSS, and JavaScript. Gradually, they stopped being just languages and became a medium for expressing my creativity.</p>
+                <p class="line reveal">As I explored further, I stepped into the world of React, building dynamic and interactive web applications.</p>
+                <p class="line reveal">But my curiosity didn't stop there… I began exploring the world of data.</p>
+                <p class="line reveal">With Python, Pandas, and Machine Learning tools, I learned to identify patterns and transform data into meaningful stories.</p>
+                <p class="line reveal">Every project, every concept I learned has made me more confident, more capable, and even more curious to grow.</p>
+                </div> 
+                </div>
+        </section>
+<!-- -----------------------------------------------------------skills------------------------------------------- -->
+       <section id="skill">
+            <div class="tech-section">
+            <h2 class="sub-title aa"> Episode 3: SKILLS</h2>
+            <div class="tech-grid">
+                <div class="tech-col">
+                <h3>Languages</h3>
+                <div class="skill"><p>HTML</p><div class="bar"><div class="level html"></div></div></div>
+                <div class="skill"><p>CSS</p><div class="bar"><div class="level css"></div></div></div>
+                <div class="skill"><p>JavaScript</p><div class="bar"><div class="level js"></div></div></div>
+                <div class="skill"><p>Python</p><div class="bar"><div class="level python"></div></div></div>
+                <div class="skill"><p>C / C++</p><div class="bar"><div class="level c"></div></div></div>
+                </div>
+                <!-- LIBRARIES -->
+                <div class="tech-col">
+                <h3>Libraries</h3>
+                <div class="skill"><p>ReactJS</p><div class="bar"><div class="level react"></div></div></div>
+                <div class="skill"><p>Pandas</p><div class="bar"><div class="level pandas"></div></div></div>
+                <div class="skill"><p>Numpy</p><div class="bar"><div class="level numpy"></div></div></div>
+                <div class="skill"><p>Matplotlib</p><div class="bar"><div class="level matplotlib"></div></div></div>
+                </div>
+                <!-- DATABASES -->
+                <div class="tech-col">
+                <h3>Databases</h3>
+                <div class="skill"><p>MySQL</p><div class="bar"><div class="level mysql"></div></div></div>
+                <div class="skill"><p>SQLite</p><div class="bar"><div class="level sqlite"></div></div></div>
+                <div class="skill"><p>MongoDB</p><div class="bar"><div class="level mongo"></div></div></div>
+                </div>
+            </div>
+            </div>
+        </section>
+<!-- ---------------------------------------------certificates------------------------------------------- -->
+
+    <section id="certificates">
+            <div class="cert-section">
+            <h2 class="sub-heading">Episode 4: Achievement Signals</h2>
+            <div class="scanner">
+            <div class="scan-line"></div>
+                <div class="cert reveal"> Robotics Summer Camp - Completion (2023)</div>
+                <div class="cert reveal"> Components Identification - Participation (2023)</div>
+                <div class="cert reveal"> District Hackathon - Participation (2024)</div>
+                <div class="cert reveal"> National Science Day - Appreciation (2024)</div>
+                <div class="cert reveal"> IEEE Membership - Professional Growth (2025)</div>
+            </div>
+            </div>
+    </section> 
+
+<!-- ------------------------------------------------------Projects----------------------------------------------------- -->
+
+<section id="projects" class="cinema-section" >
+    <h2 class="cinema-title">Episode 5: Project Cinema <i class="ri-live-line"></i></h2>
+       <div class="movie-card" >
+           <h1>GLOBAL TIME SYSTEM <i class="ri-time-line"></i></h1>
+            <a href="https://raw.githack.com/anushkadhakar1/globalTimeSystem/main/index.html">Live demo</a>
+           <p>“A world where time zones confuse everyone… until one app changed everything.”</p>
+           <button onclick="openTrailer(0)"><i class="ri-play-fill"></i> Play </button>
+       </div>
+
+  <!-- CINEMA PLAYER -->
+    <div id="cinemaPlayer" class="cinema-player hidden">
+        <div class="spotlight"></div>
+        <h1 id="movieTitle"></h1>
+        <p id="movieStory"></p>
+        <div class="wave cinema-wave"></div>
+        <button onclick="closeTrailer()"> Exit Cinema</button>
+    </div>
+</section>
+
+<!-- ----------------------------------------------contct--------------------------------------------- -->
+
+<section id="contact" class="contact-section">
+  <h2 class="contact-title">Episode 6: Connect With Me </h2>
+  <div class="contact-container">
+    <form class="contact-form" onsubmit="sendMessage(event)">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" rows="5" placeholder="Your Message..." required></textarea>
+        <button type="submit"> Send Message</button>
+    </form>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+
+
