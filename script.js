@@ -166,6 +166,21 @@ function startListening(btn) {
 }
 
 
+
+// function startListening(btn){
+//   const audio = document.getElementById("podcastAudio");
+
+//   if(audio.paused){
+//     audio.play();
+//     btn.innerText = "Pause";
+//   } else {
+//     audio.pause();
+//     btn.innerText = "Start Listening";
+//   }
+// }
+
+
+
 // Set initial progress bar state
 document.addEventListener("DOMContentLoaded", () => {
   updateEpisode();  // Initialize first episode
