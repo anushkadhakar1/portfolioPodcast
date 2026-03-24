@@ -145,6 +145,7 @@ let isPlaying = false;
 function startListening(btn) {
   const wave = document.querySelector(".wave");
   const player = document.getElementById("playerBox");
+  const audio = document.getElementById("podcastAudio");
   
   if (!player) return;  
   
@@ -152,11 +153,13 @@ function startListening(btn) {
 
   if (!isPlaying) {
     if (wave) wave.classList.add("active");
+    if (audio) audio.play();
     btn.innerHTML = `<i class="ri-pause-fill"></i> Pause The Story`;
     isPlaying = true;
 
   } else {
     if (wave) wave.classList.remove("active");
+    if (audio) audio.pause();
     btn.innerHTML = `<i class="ri-play-fill"></i> Start Listening`;
     isPlaying = false;
   }
