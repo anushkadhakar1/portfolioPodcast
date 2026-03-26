@@ -1,12 +1,34 @@
 // ========== EPISODE MANAGER  ==========
 let i = 0;
 const episodes = [
+  "Click here to change episodes",
   "Episode 1: Who am i?",
   "Episode 2: The Learning Journey", 
   "Episode 3: Skills",
   "Episode 4: Achievement signals ",
   "Episode 5: Project Cinema",
   "Episode 6: Connect with me "
+];
+
+
+const audioFiles = [
+  "./story.mp3",
+  "./ep1.mp3",
+  "./ep2.mp3",
+  "./ep3.mp3",
+  "./ep4.mp3",
+  "./ep5.mp3",
+  "./ep6.mp3"
+];
+
+const sections = [
+  "home",
+  "about",
+  "journey",
+  "skill",
+  "certificates",
+  "projects",
+  "contact"
 ];
 
 // Safe function to update progress bars
@@ -21,9 +43,12 @@ function updateProgressBars(activeIndex) {
 
 function updateEpisode() {
   const currentEpElement = document.getElementById("currentEp");
+  const audio = document.getElementById("podcastAudio");
   if (currentEpElement) {
     currentEpElement.innerText = episodes[i];
   }
+   audio.src = audioFiles[i];
+   audio.play();
   updateProgressBars(i + 1);
 }
 
@@ -146,20 +171,27 @@ function startListening(btn) {
   const wave = document.querySelector(".wave");
   const player = document.getElementById("playerBox");
   const audio = document.getElementById("podcastAudio");
+  const title = document.querySelector(".player h3");
   
   if (!player) return;  
   
   player.classList.remove("hidden");
 
+   if (!audio.src) {
+    audio.src = audioFiles[0];
+  }
+
   if (!isPlaying) {
     if (wave) wave.classList.add("active");
     if (audio) audio.play();
+    title.style.display = "block";  
     btn.innerHTML = `<i class="ri-pause-fill"></i> Pause The Story`;
     isPlaying = true;
 
   } else {
     if (wave) wave.classList.remove("active");
     if (audio) audio.pause();
+    title.style.display = "none"; 
     btn.innerHTML = `<i class="ri-play-fill"></i> Start Listening`;
     isPlaying = false;
   }
@@ -185,8 +217,6 @@ function startListening(btn) {
 document.addEventListener("DOMContentLoaded", () => {
   updateEpisode();  // Initialize first episode
 });
-
-
 
 
 
@@ -238,19 +268,6 @@ function sendMessage(event){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // -----------------------------navbar-----------------------------
 
 
@@ -271,8 +288,6 @@ function opentab(tabName){
 
 
 
-
-
 var sidemenu = document.getElementById('sidemenu')
 function openmenu(){
     sidemenu.style.right = '0'
@@ -280,3 +295,37 @@ function openmenu(){
 function closemenu(){
     sidemenu.style.right = '-200px'
 }
+
+
+
+function selectEpisode(index) {
+  if (index < 1 || index > 6) return;
+
+  i = index;
+
+  const audio = document.getElementById("podcastAudio");
+  const wave = document.querySelector(".wave");
+
+  //  change audio
+  audio.src = audioFiles[index];
+  audio.play();
+
+  //  update text
+  document.getElementById("currentEp").innerText = episodes[index];
+
+  //  wave animation
+  wave.classList.add("active");
+
+  //  scroll to section
+  document.getElementById(sections[index]).scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+
+
+
+
+
+
+
