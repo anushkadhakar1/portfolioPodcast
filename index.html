@@ -36,7 +36,7 @@
                     <button class="btn" onclick="startListening(this)" ><i class="ri-play-fill"></i> Start Listening</button>
                 </div>
 
-                <div class="player hidden" id="playerBox" onclick="playPodcast()">
+                <div class="player hidden" id="playerBox">
                     <img src="./image.jpeg" alt="Anushka profile image">
                     <h3>Now Playing</h3>
                     <div class="wave"></div>
@@ -44,7 +44,7 @@
                     <button onclick="event.stopPropagation(); prevEpisode()"><i class="ri-rewind-mini-fill"></i></button>
                     <button onclick="event.stopPropagation(); resetPodcast()"><i class="ri-loop-left-line"></i></button>
                     <button onclick="event.stopPropagation(); nextEpisode()"><i class="ri-speed-mini-fill"></i></button>
-                    <audio id="podcastAudio" src="./story.mp3">Your browser does not support audio.</audio>
+                    <audio id="podcastAudio" >Your browser does not support audio.</audio>
                         <div id="e1" class="progress"></div>
                         <div id="e2" class="progress"></div>
                         <div id="e3" class="progress"></div>
@@ -59,7 +59,7 @@
                         <img src="./iimg.jpeg"/>
                     </div>
                     <div class="about-col-2">
-                        <h1 class="sub-title "> Episode 1: Who am i ?</h1>
+                        <h1 class="sub-title " onclick="selectEpisode(1)"> Episode 1: Who am i ?</h1>
                         <p class="line reveal">| &nbsp; Every story has a beginning… and mine starts with curiosity.</p>
                         <p class="line reveal">I am a frontend developer, but not just someone who writes code — I am someone who builds experiences that people can feel.</p>
                         <p class="line reveal">From the moment I saw my first webpage come alive, I realized something powerful — I don't just want to use websites… I want to create them.</p>
@@ -74,7 +74,7 @@
         <section id="journey">
             <div class="reveal-section">
                 <div class="journey-1 ">
-                <h1 class="sub-title">Episode 2: The Learning Journey</h1>
+                <h1 class="sub-title" onclick="selectEpisode(2)">Episode 2: The Learning Journey</h1>
                 <p class="line reveal">My journey has never been just about learning code… it has been about understanding how technology can solve real-world problems.</p>
                 <p class="line reveal">I started with the basics — HTML, CSS, and JavaScript. Gradually, they stopped being just languages and became a medium for expressing my creativity.</p>
                 <p class="line reveal">As I explored further, I stepped into the world of React, building dynamic and interactive web applications.</p>
@@ -87,7 +87,7 @@
 <!-- -----------------------------------------------------------skills------------------------------------------- -->
        <section id="skill">
             <div class="tech-section">
-            <h2 class="sub-title aa"> Episode 3: SKILLS</h2>
+            <h2 class="sub-title aa" onclick="selectEpisode(3)"> Episode 3: SKILLS</h2>
             <div class="tech-grid">
                 <div class="tech-col">
                 <h3>Languages</h3>
@@ -119,7 +119,7 @@
 
     <section id="certificates">
             <div class="cert-section">
-            <h2 class="sub-heading">Episode 4: Achievement Signals</h2>
+            <h2 class="sub-heading" onclick="selectEpisode(4)">Episode 4: Achievement Signals</h2>
             <div class="scanner">
             <div class="scan-line"></div>
                 <div class="cert reveal"> Robotics Summer Camp - Completion (2023)</div>
@@ -134,7 +134,7 @@
 <!-- ------------------------------------------------------Projects----------------------------------------------------- -->
 
 <section id="projects" class="cinema-section" >
-    <h2 class="cinema-title">Episode 5: Project Cinema <i class="ri-live-line"></i></h2>
+    <h2 class="cinema-title"onclick="selectEpisode(5)">Episode 5: Project Cinema <i class="ri-live-line"></i></h2>
        <div class="movie-card" >
            <h1>GLOBAL TIME SYSTEM <i class="ri-time-line"></i></h1>
             <a href="https://raw.githack.com/anushkadhakar1/globalTimeSystem/main/index.html">Live demo</a>
@@ -155,7 +155,7 @@
 <!-- ----------------------------------------------contct--------------------------------------------- -->
 
 <section id="contact" class="contact-section">
-  <h2 class="contact-title">Episode 6: Connect With Me </h2>
+  <h2 class="contact-title" onclick="selectEpisode(6)">Episode 6: Connect With Me </h2>
   <div class="contact-container">
     <form class="contact-form" onsubmit="sendMessage(event)">
         <input type="text" id="name" placeholder="Your Name" required>
