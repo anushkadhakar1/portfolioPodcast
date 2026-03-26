@@ -31,7 +31,7 @@ const sections = [
   "contact"
 ];
 
-// Safe function to update progress bars
+// function to update progress bars
 function updateProgressBars(activeIndex) {
   for (let j = 1; j <= episodes.length; j++) {
     const bar = document.getElementById("e" + j);
@@ -44,12 +44,25 @@ function updateProgressBars(activeIndex) {
 function updateEpisode() {
   const currentEpElement = document.getElementById("currentEp");
   const audio = document.getElementById("podcastAudio");
+  const wave = document.querySelector(".wave");
   if (currentEpElement) {
     currentEpElement.innerText = episodes[i];
   }
    audio.src = audioFiles[i];
    audio.play();
+   if (wave) wave.classList.add("active");
   updateProgressBars(i + 1);
+   const targetSection = document.getElementById(sections[i]);
+
+  if (targetSection) {
+    const yOffset = -80;
+    const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth"
+    });
+  }
 }
 
 function playPodcast() {
@@ -145,6 +158,14 @@ const scrollObserver = new IntersectionObserver((entries) => {
 
 // Observe all sections when DOM loads
 document.addEventListener("DOMContentLoaded", () => {
+   updateEpisode();
+
+  document.getElementById("podcastAudio").addEventListener("ended", () => {
+    if (i < episodes.length - 1) {
+      i++;
+      updateEpisode();
+    }
+  });
   // Observe subtitle section
   const subTitle = document.querySelector(".sub-title");
   if (subTitle) scrollObserver.observe(subTitle);
@@ -196,21 +217,6 @@ function startListening(btn) {
     isPlaying = false;
   }
 }
-
-
-
-// function startListening(btn){
-//   const audio = document.getElementById("podcastAudio");
-
-//   if(audio.paused){
-//     audio.play();
-//     btn.innerText = "Pause";
-//   } else {
-//     audio.pause();
-//     btn.innerText = "Start Listening";
-//   }
-// }
-
 
 
 // Set initial progress bar state
@@ -321,8 +327,6 @@ function selectEpisode(index) {
     behavior: "smooth"
   });
 }
-
-
 
 
 
