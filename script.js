@@ -1,15 +1,16 @@
-// ========== EPISODE MANAGER  ==========
+// ========== EPISODE MANAGER ==========
 let i = 0;
+let isPlaying = false;
+
 const episodes = [
   "Click here to change episodes",
   "Episode 1: Who am i?",
   "Episode 2: The Learning Journey", 
   "Episode 3: Skills",
-  "Episode 4: Achievement signals ",
+  "Episode 4: Achievement signals",
   "Episode 5: Project Cinema",
-  "Episode 6: Connect with me "
+  "Episode 6: Connect with me"
 ];
-
 
 const audioFiles = [
   "./story.mp3",
@@ -31,32 +32,41 @@ const sections = [
   "contact"
 ];
 
-// function to update progress bars
+// ========== UPDATE PROGRESS ==========
 function updateProgressBars(activeIndex) {
   for (let j = 1; j <= episodes.length; j++) {
     const bar = document.getElementById("e" + j);
-    if (bar) {  // Check if element exists
+    if (bar) {
       bar.style.width = j === activeIndex ? "100%" : "0%";
     }
   }
 }
 
+// ========== MAIN UPDATE ==========
 function updateEpisode() {
-  const currentEpElement = document.getElementById("currentEp");
+  const currentEp = document.getElementById("currentEp");
   const audio = document.getElementById("podcastAudio");
   const wave = document.querySelector(".wave");
-  if (currentEpElement) {
-    currentEpElement.innerText = episodes[i];
-  }
-   audio.src = audioFiles[i];
-   audio.play();
-   if (wave) wave.classList.add("active");
-  updateProgressBars(i + 1);
-   const targetSection = document.getElementById(sections[i]);
 
-  if (targetSection) {
+  // update text
+  if (currentEp) currentEp.innerText = episodes[i];
+
+  // update audio
+  audio.src = audioFiles[i];
+
+  // play only if started
+  if (isPlaying) {
+    audio.play();
+    if (wave) wave.classList.add("active");
+  }
+
+  updateProgressBars(i + 1);
+
+  // scroll sync
+  const target = document.getElementById(sections[i]);
+  if (target) {
     const yOffset = -80;
-    const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
     window.scrollTo({
       top: y,
@@ -65,11 +75,7 @@ function updateEpisode() {
   }
 }
 
-function playPodcast() {
-  i = 0;
-  updateEpisode();
-}
-
+// ========== CONTROLS ==========
 function nextEpisode() {
   if (i < episodes.length - 1) {
     i++;
@@ -86,154 +92,154 @@ function prevEpisode() {
 
 function resetPodcast() {
   i = 0;
-  updateEpisode();  // DRY principle - reuse existing function
+  updateEpisode();
 }
 
-// ========== SINGLE SCROLL OBSERVER  ==========
-//  One observer instead of 4 scroll listeners
+// ========== START / PAUSE ==========
+function startListening(btn) {
+  const audio = document.getElementById("podcastAudio");
+  const wave = document.querySelector(".wave");
+  const player = document.getElementById("playerBox");
+  const title = document.querySelector(".player h3");
 
+  if (!player) return;
+
+  player.classList.remove("hidden");
+
+  if (!audio.src) {
+    audio.src = audioFiles[0];
+  }
+
+  if (!isPlaying) {
+    audio.play();
+    wave.classList.add("active");
+    title.style.display = "block";
+    btn.innerHTML = `<i class="ri-pause-fill"></i> Pause The Story`;
+    isPlaying = true;
+  } else {
+    audio.pause();
+    wave.classList.remove("active");
+    title.style.display = "none";
+    btn.innerHTML = `<i class="ri-play-fill"></i> Start Listening`;
+    isPlaying = false;
+  }
+}
+
+// ========== CLICK EPISODE ==========
+function selectEpisode(index) {
+  if (index < 1 || index > 6) return;
+
+  i = index;
+
+  const audio = document.getElementById("podcastAudio");
+  const wave = document.querySelector(".wave");
+
+  audio.src = audioFiles[index];
+
+  // IMPORTANT FIX
+  if (isPlaying) {
+    audio.play();
+    wave.classList.add("active");
+  }
+
+  document.getElementById("currentEp").innerText = episodes[index];
+
+  document.getElementById(sections[index]).scrollIntoView({
+    behavior: "smooth"
+  });
+
+  updateProgressBars(index + 1);
+}
+
+// ========== AUTO NEXT ==========
+document.addEventListener("DOMContentLoaded", () => {
+
+  const audio = document.getElementById("podcastAudio");
+
+  audio.addEventListener("ended", () => {
+    if (i < episodes.length - 1 && isPlaying) {
+      i++;
+      updateEpisode();
+    }
+  });
+
+});
+
+// ========== SCROLL ANIMATIONS ==========
 const observerOptions = {
   threshold: 0.2,
   rootMargin: "0px 0px -50px 0px"
 };
+
 const animatedElements = new Set();
 
 const scrollObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
-    
+
     const target = entry.target;
 
-     if (animatedElements.has(target)) return;
+    if (animatedElements.has(target)) return;
     animatedElements.add(target);
-    
-    // 1. Handle Subtitle Lines Animation
+
     if (target.classList.contains('sub-title')) {
       document.querySelectorAll(".line").forEach((el, idx) => {
-        if (!el.classList.contains("show")) {
-          setTimeout(() => {
-            el.classList.add("show");
-          }, idx * 800);
-        }
+        setTimeout(() => el.classList.add("show"), idx * 800);
       });
       scrollObserver.unobserve(target);
     }
-    
-    // 2. Handle Reveal Elements Animation
+
     if (target.classList.contains('reveal-section')) {
       document.querySelectorAll(".reveal").forEach((el, idx) => {
-     
-        setTimeout(() => {
-        
-          el.classList.add("show");
-        }, idx * 200);
-      
+        setTimeout(() => el.classList.add("show"), idx * 200);
       });
       scrollObserver.unobserve(target);
     }
-    
-    // 3. Handle Tech Section Animation
+
     if (target.classList.contains('tech-section')) {
       document.querySelectorAll(".level").forEach(el => {
         el.classList.add("animate");
       });
       scrollObserver.unobserve(target);
     }
-    
-    // 4. Handle Certificate Section Animation
-    if (target.classList.contains('cert-section')) {
 
-      const certs = target.querySelectorAll(".cert");
-      certs.forEach((el, idx) => {
-        if (!el.classList.contains("show")) {
-          setTimeout(() => {
-            el.classList.add("show");
-          }, idx * 600);
-        }
+    if (target.classList.contains('cert-section')) {
+      target.querySelectorAll(".cert").forEach((el, idx) => {
+        setTimeout(() => el.classList.add("show"), idx * 600);
       });
       scrollObserver.unobserve(target);
     }
   });
 }, observerOptions);
 
-// Observe all sections when DOM loads
+// observe sections
 document.addEventListener("DOMContentLoaded", () => {
-   updateEpisode();
+  const elements = [
+    ".sub-title",
+    ".reveal-section",
+    ".tech-section",
+    ".cert-section"
+  ];
 
-  document.getElementById("podcastAudio").addEventListener("ended", () => {
-    if (i < episodes.length - 1) {
-      i++;
-      updateEpisode();
-    }
+  elements.forEach(selector => {
+    const el = document.querySelector(selector);
+    if (el) scrollObserver.observe(el);
   });
-  // Observe subtitle section
-  const subTitle = document.querySelector(".sub-title");
-  if (subTitle) scrollObserver.observe(subTitle);
-  
-  // Observe reveal section
-  const revealSection = document.querySelector(".reveal-section");
-  if (revealSection) scrollObserver.observe(revealSection);
-  
-  // Observe tech section
-  const techSection = document.querySelector(".tech-section");
-  if (techSection) scrollObserver.observe(techSection);
-  
-  // Observe cert section
-  const certSection = document.querySelector(".cert-section");
-  if (certSection) scrollObserver.observe(certSection);
-  
-
 });
 
-// ========== STORY PLAYER  ==========
-let isPlaying = false;
-
-function startListening(btn) {
-  const wave = document.querySelector(".wave");
-  const player = document.getElementById("playerBox");
-  const audio = document.getElementById("podcastAudio");
-  const title = document.querySelector(".player h3");
-  
-  if (!player) return;  
-  
-  player.classList.remove("hidden");
-
-   if (!audio.src) {
-    audio.src = audioFiles[0];
-  }
-
-  if (!isPlaying) {
-    if (wave) wave.classList.add("active");
-    if (audio) audio.play();
-    title.style.display = "block";  
-    btn.innerHTML = `<i class="ri-pause-fill"></i> Pause The Story`;
-    isPlaying = true;
-
-  } else {
-    if (wave) wave.classList.remove("active");
-    if (audio) audio.pause();
-    title.style.display = "none"; 
-    btn.innerHTML = `<i class="ri-play-fill"></i> Start Listening`;
-    isPlaying = false;
-  }
-}
-
-
-// Set initial progress bar state
-document.addEventListener("DOMContentLoaded", () => {
-  updateEpisode();  // Initialize first episode
-});
-
-
-
+// ========== MOVIE ==========
 const movies = [
   {
     title: "GLOBAL TIME SYSTEM",
-    story: "A world where time zones confuse everyone… until one app changed everything. Built to solve real-world scheduling chaos across countries."
+    story: "A world where time zones confuse everyone… until one app changed everything."
   },
   {
     title: "PODCAST PORTFOLIO",
-    story: "Instead of a normal portfolio, I designed a cinematic storytelling experience where every section feels like an episode in a movie universe."
+    story: "A cinematic storytelling portfolio experience."
+  },
+  {
+    title: "TO-DO LIST",
+    story: "A smart and minimal To-Do List application."
   }
 ];
 
@@ -244,8 +250,6 @@ function openTrailer(index){
   document.getElementById("movieStory").innerText = movies[index].story;
 
   player.classList.remove("hidden");
-
-  // cinematic feel scroll lock
   document.body.style.overflow = "hidden";
 }
 
@@ -254,82 +258,24 @@ function closeTrailer(){
   document.body.style.overflow = "auto";
 }
 
-
-
-// ---------------------------------contact----------------------------------
-
-
-
-
+// ========== CONTACT ==========
 function sendMessage(event){
   event.preventDefault();
 
   const name = document.getElementById("name").value;
 
-  alert(` Message Sent Successfully!\n\nThanks ${name}, I'll get back to you soon!`);
+  alert(`Message Sent Successfully!\n\nThanks ${name}!`);
 
-  // reset form
   document.querySelector(".contact-form").reset();
 }
 
+// ========== NAVBAR ==========
+var sidemenu = document.getElementById('sidemenu');
 
-
-// -----------------------------navbar-----------------------------
-
-
-
-var tablinks = document.getElementsByClassName('tab-links')
-var tabcontents = document.getElementsByClassName('tab-contents')
-
-function opentab(tabName){
-    for(var tablink of tablinks){
-        tablink.classList.remove('active-link')
-    }
-    for(var tabcontent of tabcontents){
-        tabcontent.classList.remove('active-tab')
-    }
-    event.currentTarget.classList.add('active-link')
-    document.getElementById(tabName).classList.add('active-tab')
-}
-
-
-
-var sidemenu = document.getElementById('sidemenu')
 function openmenu(){
-    sidemenu.style.right = '0'
+  sidemenu.style.right = '0';
 }
+
 function closemenu(){
-    sidemenu.style.right = '-200px'
+  sidemenu.style.right = '-200px';
 }
-
-
-
-function selectEpisode(index) {
-  if (index < 1 || index > 6) return;
-
-  i = index;
-
-  const audio = document.getElementById("podcastAudio");
-  const wave = document.querySelector(".wave");
-
-  //  change audio
-  audio.src = audioFiles[index];
-  audio.play();
-
-  //  update text
-  document.getElementById("currentEp").innerText = episodes[index];
-
-  //  wave animation
-  wave.classList.add("active");
-
-  //  scroll to section
-  document.getElementById(sections[index]).scrollIntoView({
-    behavior: "smooth"
-  });
-}
-
-
-
-
-
-
